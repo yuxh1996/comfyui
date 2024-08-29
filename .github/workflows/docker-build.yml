@@ -152,17 +152,17 @@ jobs:
           echo "COMFYUI_BUILD_REF=${COMFYUI_BUILD_REF}" >> ${GITHUB_ENV}
 
           base_tag="v2-cuda-${{ matrix.build.cuda }}-${{ env.UBUNTU_VERSION }}"
-          commit_id="${{ github.sha }}"
+          short_commit_id="${{ github.sha::7 }}"
 
           if [[ ${{ matrix.build.latest }} == "true" ]]; then
                 echo "Marking latest"
                 # GHCR.io Tags
-                TAGS="${img_path_ghcr}:${base_tag}-${COMFYUI_BUILD_REF}-${commit_id}, ${img_path_ghcr}:${base_tag}-${commit_id}, ${img_path_ghcr}:${base_tag}, ${img_path_ghcr}:latest, ${img_path_ghcr}:latest-cuda"
+                TAGS="${img_path_ghcr}:${base_tag}-${COMFYUI_BUILD_REF}-${short_commit_id}, ${img_path_ghcr}:${base_tag}-${short_commit_id}, ${img_path_ghcr}:${base_tag}, ${img_path_ghcr}:latest, ${img_path_ghcr}:latest-cuda"
                 # Docker.io Tags
-                # TAGS="${TAGS}, ${img_path_dhub}:${COMFYUI_BUILD_REF}-${commit_id}, ${img_path_dhub}:latest"
+                # TAGS="${TAGS}, ${img_path_dhub}:${COMFYUI_BUILD_REF}-${short_commit_id}, ${img_path_dhub}:latest"
             else
-                TAGS="${img_path_ghcr}:${base_tag}-${COMFYUI_BUILD_REF}-${commit_id}"
-                # TAGS="${TAGS}, ${img_path_dhub}:${COMFYUI_BUILD_REF}-${commit_id}"
+                TAGS="${img_path_ghcr}:${base_tag}-${COMFYUI_BUILD_REF}-${short_commit_id}"
+                # TAGS="${TAGS}, ${img_path_dhub}:${COMFYUI_BUILD_REF}-${short_commit_id}"
             fi
           echo "TAGS=${TAGS}" >> ${GITHUB_ENV}
       -
