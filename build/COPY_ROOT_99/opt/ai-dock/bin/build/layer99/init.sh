@@ -18,6 +18,12 @@ PIP_PACKAGES=(
 NODES=(
     "https://github.com/ltdrdata/ComfyUI-Manager"
     "https://github.com/cubiq/ComfyUI_essentials"
+    "https://github.com/pythongosssss/ComfyUI-WD14-Tagger"
+    "https://github.com/pythongosssss/ComfyUI-Custom-Scripts"
+    "https://github.com/Fannovel16/comfyui_controlnet_aux"
+    "https://github.com/cubiq/ComfyUI_InstantID"
+    "https://github.com/crystian/ComfyUI-Crystools"
+    "https://github.com/rgthree/rgthree-comfy"
 )
 
 CHECKPOINT_MODELS=(
@@ -91,6 +97,7 @@ function build_extra_start() {
     build_extra_get_models \
         "/opt/storage/stable_diffusion/models/esrgan" \
         "${ESRGAN_MODELS[@]}"
+    build_extra_get_custom_models
      
     cd /opt/ComfyUI
     source "$COMFYUI_VENV/bin/activate"
@@ -154,6 +161,26 @@ function build_extra_get_models() {
             printf "\n"
         done
     fi
+}
+
+function build_extra_get_custom_models() {
+    local target_dir="/opt/storage/stable_diffusion/models"
+    
+    mkdir -p "$target_dir/instantid"
+    build_extra_download "https://hf-mirror.com/InstantX/InstantID/resolve/main/ip-adapter.bin" "$target_dir/instantid"
+
+    mkdir -p "$target_dir/controlnet"
+    build_extra_download "https://hf-mirror.com/InstantX/InstantID/resolve/main/ControlNetModel/diffusion_pytorch_model.safetensors" "$target_dir/controlnet/ControlNet_For_InstantID.safetensors"
+    build_extra_download "https://hf-mirror.com/lllyasviel/sd_control_collection/resolve/main/thibaud_xl_openpose.safetensors" "$target_dir/controlnet/thibaud_xl_openpose.safetensors"
+    build_extra_download "https://hf-mirror.com/TencentARC/t2i-adapter-depth-zoe-sdxl-1.0/resolve/main/diffusion_pytorch_model.safetensors" "$target_dir/controlnet/TencentARCt2i-adapter-depth-zoe-sdxl.safetensors"
+
+    build_extra_download "https://civitai.com/api/download/models/239306?type=Model&format=SafeTensor&size=full&fp=bf16" "$target_dir/checkpoints/disneyrealcartoonmix_v10.safetensors"
+
+    git clone https://hf-mirror.com/aigchacker/clay_insightface "$target_dir/insightface"
+
+    mkdir -p "$target_dir/loras"
+    build_extra_download "https://hf-mirror.com/aigchacker/clay_lora/resolve/main/CLAYMATE_V2.03_.safetensors" "$target_dir/loras/CLAYMATE_V2.03_.safetensors"
+    build_extra_download "https://hf-mirror.com/aigchacker/clay_lora/resolve/main/DD-made-of-clay-XL-v2.safetensors" "$target_dir/loras/DD-made-of-clay-XL-v2.safetensors"
 }
 
 # Download from $1 URL to $2 file path

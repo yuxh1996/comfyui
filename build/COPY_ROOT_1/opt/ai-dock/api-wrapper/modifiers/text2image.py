@@ -14,7 +14,7 @@ downloading any URL's to the input directory and replacing the URL with a local 
 
 class Text2Image(BaseModifier):
     
-    WORKFLOW_JSON = "workflows/image2image.json"
+    WORKFLOW_JSON = "workflows/clay_workflow_generate_api.json"
     
     def __init__(self, modificafions={}):
         super().__init__()
