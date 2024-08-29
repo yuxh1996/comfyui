@@ -152,7 +152,7 @@ jobs:
           echo "COMFYUI_BUILD_REF=${COMFYUI_BUILD_REF}" >> ${GITHUB_ENV}
 
           base_tag="v2-cuda-${{ matrix.build.cuda }}-${{ env.UBUNTU_VERSION }}"
-          short_commit_id="${{ github.sha::7 }}"
+          short_commit_id=$(echo ${{ github.sha }} | cut -c1-7)
 
           if [[ ${{ matrix.build.latest }} == "true" ]]; then
                 echo "Marking latest"
