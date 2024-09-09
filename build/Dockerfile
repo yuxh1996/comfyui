@@ -3,8 +3,8 @@
 ARG IMAGE_BASE="ghcr.io/ai-dock/python:3.10-v2-cuda-12.1.1-base-22.04"
 FROM ${IMAGE_BASE}
 
-LABEL org.opencontainers.image.source https://github.com/ai-dock/comfyui
-LABEL org.opencontainers.image.description "ComfyUI Stable Diffusion backend and GUI"
+LABEL org.opencontainers.image.source=https://github.com/ai-dock/comfyui
+LABEL org.opencontainers.image.description="ComfyUI Stable Diffusion backend and GUI"
 LABEL maintainer="Rob Ballantyne <rob@dynamedia.uk>"
 
 ENV COMFYUI_VENV=$VENV_DIR/comfyui
